@@ -1,0 +1,40 @@
+﻿<dxc:DXWindow x:Class="Q421413.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+		xmlns:dxbt="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+		xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+		xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+		xmlns:dxrt="http://schemas.devexpress.com/winfx/2008/xaml/ribbon/themekeys"
+					xmlns:local="clr-namespace:Q421413"
+        Title="MainWindow" Height="350" Width="525">
+	<Grid>
+		<dxb:BarManager x:Name="barManager1">
+			<dxb:BarManager.Items>
+				<dxb:BarSubItem x:Name="sitem1" Content="File" SubItemsGlyphSize="Large">
+					<dxb:BarSubItem.ItemLinks>
+						<local:MyBarCheckItemLink BarItemName="item1" />
+						<local:MyBarCheckItemLink BarItemName="item2" />
+						<local:MyBarButtonItemLink BarItemName="item3" />
+						<local:MyBarButtonItemLink BarItemName="item4" />
+						<local:MyBarButtonItemLink BarItemName="item5" />
+					</dxb:BarSubItem.ItemLinks>
+				</dxb:BarSubItem>
+				<local:MyBarCheckItem x:Name="item1" Content="Item1" LargeGlyph="/Images/Cut_32x32.png" />
+				<local:MyBarCheckItem x:Name="item2" Content="Item2" LargeGlyph="/Images/New_32x32.png" />
+				<local:MyBarButtonItem x:Name="item3" Content="Item3" LargeGlyph="/Images/Find_32x32.png" />
+				<local:MyBarButtonItem x:Name="item4" Content="Item4" LargeGlyph="/Images/Paste_32x32.png" />
+				<local:MyBarButtonItem x:Name="item5" Content="Item5" LargeGlyph="/Images/Cut_32x32.png" />
+			</dxb:BarManager.Items>
+			<dxr:RibbonControl Name="ribbonControl1">
+				<dxr:RibbonDefaultPageCategory>
+					<dxr:RibbonPage Caption="Test Page">
+						<dxr:RibbonPageGroup Name="pFile" Caption="File">
+							<dxb:BarSubItemLink BarItemName="sitem1" />
+						</dxr:RibbonPageGroup>
+					</dxr:RibbonPage>
+				</dxr:RibbonDefaultPageCategory>
+			</dxr:RibbonControl>
+		</dxb:BarManager>
+	</Grid>
+</dxc:DXWindow>
