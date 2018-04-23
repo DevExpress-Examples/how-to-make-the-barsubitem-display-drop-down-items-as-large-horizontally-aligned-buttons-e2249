@@ -1,0 +1,430 @@
+﻿<Window x:Class="WpfApplication1.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxt="clr-namespace:DevExpress.Xpf.Core.Native;assembly=DevExpress.Xpf.Core.v11.2" xmlns:local="clr-namespace:WpfApplication1" xmlns:dxbt="clr-namespace:DevExpress.Xpf.Bars.Themes;assembly=DevExpress.Xpf.Core.v11.2" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="MainWindow" Height="350" dxc:ThemeManager.ThemeName="Office2007Blue" Width="525" xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon">
+    <Window.Resources>
+        <Style TargetType="{x:Type local:MySubItemLinkControl}">
+            <Style.Resources>
+                <ResourceDictionary>
+                    <ItemsPanelTemplate x:Key="{dxbt:SubMenuBarControlThemeKey ResourceKey=ItemsPanelTemplate}">
+                        <dxb:SubMenuClientPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                    <ControlTemplate x:Key="{dxbt:SubMenuBarControlThemeKey ResourceKey=GlyphSideBorderTemplate}" TargetType="{x:Type ContentControl}">
+                        <Border SnapsToDevicePixels="True" CornerRadius="2,0,0,2" Background="White" />
+                    </ControlTemplate>
+
+                    <!-- This template is used to override the appearance of a CheckItem -->
+                    <ControlTemplate x:Key="{dxbt:BarCheckItemThemeKey ResourceKey=InMenuTemplate}" TargetType="{x:Type dxb:BarCheckItemLinkControl}">
+                        <Grid x:Name="PART_Item" Margin="1" Background="Transparent" SnapsToDevicePixels="True">
+                            <dxb:ItemBorderControl x:Name="PART_ItemCheckBorder" Template="{Binding Path=BorderTemplate, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <dxb:ItemBorderControl x:Name="PART_ItemBorder" Template="{Binding Path=BorderTemplate, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Border Padding="{DynamicResource {dxbt:BarItemThemeKey ResourceKey=InMenuClientPadding}}" Background="Transparent">
+                                <StackPanel Orientation="Vertical">
+                                    <Border Margin="{Binding Path=(dxb:LinksControl.LinksControl).GlyphPadding, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Path=(dxb:LinksControl.LinksControl).MaxGlyphSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="Auto" Background="Transparent">
+                                        <Grid>
+                                            <ContentControl x:Name="PART_TriStateGlyph" Opacity="0" VerticalAlignment="Center" HorizontalAlignment="Center" Template="{DynamicResource {dxbt:BarCheckItemThemeKey ResourceKey=TriStateBorderInMenu}}" />
+                                            <ContentControl x:Name="PART_CheckGlyph" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0" Template="{DynamicResource {dxbt:BarCheckItemThemeKey ResourceKey=CheckInMenu}}" />
+                                            <ContentControl x:Name="PART_GlyphCheckBorder" Margin="{DynamicResource {dxbt:BarCheckItemThemeKey ResourceKey=BorderMarginInMenu}}" Opacity="0" VerticalAlignment="Center">
+                                                <Border Width="{Binding Path=(dxb:LinksControl.LinksControl).MaxGlyphSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=(dxb:LinksControl.LinksControl).MaxGlyphSize.Height, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </ContentControl>
+                                            <ContentControl x:Name="PART_GlyphTriStateBorder" Margin="{DynamicResource {dxbt:BarCheckItemThemeKey ResourceKey=BorderMarginInMenu}}" Opacity="0" Template="{DynamicResource {dxbt:BarCheckItemThemeKey ResourceKey=GlyphTriStateBorderInMenu}}" VerticalAlignment="Center">
+                                                <Border Width="{Binding Path=(dxb:LinksControl.LinksControl).MaxGlyphSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=(dxb:LinksControl.LinksControl).MaxGlyphSize.Height, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </ContentControl>
+                                            <dxc:PixelSnapper VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Image Name="PART_Glyph" VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Path=ActualGlyph, RelativeSource={RelativeSource TemplatedParent}}" Visibility="{TemplateBinding ActualGlyphVisibility}" />
+                                            </dxc:PixelSnapper>
+                                        </Grid>
+                                    </Border>
+                                    <StackPanel x:Name="PART_ContentAndDescription" Margin="{DynamicResource {dxbt:BarItemThemeKey ResourceKey=InMenuContentMargin}}">
+                                        <dxc:MeasurePixelSnapper SnapperType="Around">
+                                            <ContentControl Name="PART_Content" Content="{Binding Path=Link.ActualContent, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{Binding Path=Link.Item.ContentTemplate, RelativeSource={RelativeSource TemplatedParent}}" Style="{Binding Path=NormalContentStyle, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <!--BEGIN WPF-->
+                                                <ContentControl.ContentTemplateSelector>
+                                                    <Binding Path="Link.Item.ContentTemplateSelector" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                </ContentControl.ContentTemplateSelector>
+                                                <!--END WPF-->
+                                            </ContentControl>
+                                        </dxc:MeasurePixelSnapper>
+                                        <dxc:MeasurePixelSnapper SnapperType="Around">
+                                            <ContentControl Name="PART_Description" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed" Content="{Binding Path=Link.Item.Description, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{Binding Path=Link.Item.ContentTemplate, RelativeSource={RelativeSource TemplatedParent}}" Style="{Binding Path=NormalDescriptionStyle, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </dxc:MeasurePixelSnapper>
+                                    </StackPanel>
+                                    <dxc:MeasurePixelSnapper SnapperType="Around">
+                                        <ContentControl Name="PART_KeyGesture" dxb:ItemContentPanel.Alignment="Far" Margin="{DynamicResource {dxbt:BarItemThemeKey ResourceKey=InMenuKeyGestureMargin}}" Content="{Binding Path=Link.KeyGestureText, RelativeSource={RelativeSource TemplatedParent}}" Style="{Binding Path=NormalContentStyle, RelativeSource={RelativeSource TemplatedParent}}" Visibility="Collapsed" VerticalAlignment="Center" />
+                                    </dxc:MeasurePixelSnapper>
+                                </StackPanel>
+                            </Border>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ItemCheckState">
+                                    <VisualState x:Name="ItemChecked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ItemCheckBorder" Storyboard.TargetProperty="State">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <dxb:BorderState>Pressed</dxb:BorderState>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="ItemUnchecked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ItemCheckBorder" Storyboard.TargetProperty="State">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <dxb:BorderState>Normal</dxb:BorderState>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="ItemIntermediate">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ItemCheckBorder" Storyboard.TargetProperty="State">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <dxb:BorderState>Hover</dxb:BorderState>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ItemState">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Item" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Hot">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphCheckBorder" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <SolidColorBrush Color="#00FFFFFF" />
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphTriStateBorder" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <SolidColorBrush Color="#00FFFFFF" />
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphCheckBorder" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <SolidColorBrush Color="#00FFFFFF" />
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphTriStateBorder" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <SolidColorBrush Color="#00FFFFFF" />
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Customization" />
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Item" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{DynamicResource {dxbt:BarItemThemeKey ResourceKey=DisableStateOpacityValue}}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="KeyGestureVisibility">
+                                    <VisualState x:Name="KeyGestureVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_KeyGesture" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DescriptionVisibility">
+                                    <VisualState x:Name="DescriptionVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Description" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentAndDescription" Storyboard.TargetProperty="VerticalAlignment">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <VerticalAlignment>Stretch</VerticalAlignment>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="DescriptionHidden">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Description" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentAndDescription" Storyboard.TargetProperty="VerticalAlignment">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <VerticalAlignment>Center</VerticalAlignment>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="TriStateBorderVisibility">
+                                    <VisualState x:Name="TriStateBorderVisible">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_TriStateGlyph" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="TriStateBorderHidden">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_TriStateGlyph" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckVisibility">
+                                    <VisualState x:Name="CheckVisible">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_CheckGlyph" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckHidden">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_CheckGlyph" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="TriStateGlyphBorderVisibility">
+                                    <VisualState x:Name="TriStateGlyphBorderVisible">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphTriStateBorder" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="TriStateGlyphBorderHidden">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphTriStateBorder" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="GlyphCheckVisibility">
+                                    <VisualState x:Name="GlyphCheckVisible">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphCheckBorder" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="GlyphCheckHidden">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_GlyphCheckBorder" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <dxt:DXTriggerManager.TriggersInfo>
+                                <dxt:DXTriggerInfoCollection>
+                                    <dxt:DXTriggerInfo Binding="{Binding Path=IsTriStateBorderVisible, RelativeSource={RelativeSource TemplatedParent}}" VisualState="TriStateBorderVisible" VisualStateNormal="TriStateBorderHidden">
+                                        <dxt:DXTriggerInfo.TriggerValue>
+                                            <sys:Boolean>True</sys:Boolean>
+                                        </dxt:DXTriggerInfo.TriggerValue>
+                                    </dxt:DXTriggerInfo>
+                                    <dxt:DXTriggerInfo Binding="{Binding Path=IsCheckVisible, RelativeSource={RelativeSource TemplatedParent}}" VisualState="CheckVisible" VisualStateNormal="CheckHidden">
+                                        <dxt:DXTriggerInfo.TriggerValue>
+                                            <sys:Boolean>True</sys:Boolean>
+                                        </dxt:DXTriggerInfo.TriggerValue>
+                                    </dxt:DXTriggerInfo>
+                                    <dxt:DXTriggerInfo Binding="{Binding Path=IsTriStateGlyphBorderVisible, RelativeSource={RelativeSource TemplatedParent}}" VisualState="TriStateGlyphBorderVisible" VisualStateNormal="TriStateGlyphBorderHidden">
+                                        <dxt:DXTriggerInfo.TriggerValue>
+                                            <sys:Boolean>True</sys:Boolean>
+                                        </dxt:DXTriggerInfo.TriggerValue>
+                                    </dxt:DXTriggerInfo>
+                                    <dxt:DXTriggerInfo Binding="{Binding Path=IsCheckGlyphBorderVisible, RelativeSource={RelativeSource TemplatedParent}}" VisualState="GlyphCheckVisible" VisualStateNormal="GlyphCheckHidden">
+                                        <dxt:DXTriggerInfo.TriggerValue>
+                                            <sys:Boolean>True</sys:Boolean>
+                                        </dxt:DXTriggerInfo.TriggerValue>
+                                    </dxt:DXTriggerInfo>
+                                </dxt:DXTriggerInfoCollection>
+                            </dxt:DXTriggerManager.TriggersInfo>
+                        </Grid>
+                    </ControlTemplate>
+
+                    <!-- This template is used to override the appearance of ButtonItem -->
+                    <ControlTemplate x:Key="{dxbt:BarButtonItemThemeKey ResourceKey=InMenuTemplate}" TargetType="{x:Type dxb:BarButtonItemLinkControl}">
+                        <Grid x:Name="PART_Item" Margin="1" Background="Transparent" SnapsToDevicePixels="True">
+                            <dxb:ItemBorderControl x:Name="PART_ItemBorder" Template="{Binding Path=BorderTemplate, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Border Padding="{DynamicResource {dxbt:BarItemThemeKey ResourceKey=InMenuClientPadding}}" Background="Transparent">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <Border Margin="{Binding Path=(dxb:LinksControl.LinksControl).GlyphPadding, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Path=(dxb:LinksControl.LinksControl).MaxGlyphSize.Width, RelativeSource={RelativeSource TemplatedParent}}" x:Name="PART_GlyphBorder" Height="Auto" Background="Transparent">
+                                        <dxc:PixelSnapper VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Image Name="PART_Glyph" VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Path=ActualGlyph, RelativeSource={RelativeSource TemplatedParent}}" Visibility="{TemplateBinding ActualGlyphVisibility}" />
+                                        </dxc:PixelSnapper>
+                                    </Border>
+                                    <StackPanel x:Name="PART_ContentAndDescription" Margin="5,0,5,0" HorizontalAlignment="Center">
+                                        <ContentControl Name="PART_Content" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding Path=Link.ActualContent, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{Binding Path=Link.ActualContentTemplate, RelativeSource={RelativeSource TemplatedParent}}" Style="{Binding Path=NormalContentStyle, RelativeSource={RelativeSource TemplatedParent}}">
+                                            <!--BEGIN WPF-->
+                                            <ContentControl.ContentTemplateSelector>
+                                                <Binding Path="Link.Item.ContentTemplateSelector" RelativeSource="{RelativeSource TemplatedParent}" />
+                                            </ContentControl.ContentTemplateSelector>
+                                            <!--END WPF-->
+                                        </ContentControl>
+                                        <ContentControl Name="PART_Description" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed" Content="{Binding Path=Link.ActualDescription, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{Binding Path=Link.ActualContentTemplate, RelativeSource={RelativeSource TemplatedParent}}" Style="{Binding Path=NormalDescriptionStyle, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </StackPanel>
+                                    <ContentControl Name="PART_KeyGesture" dxb:ItemContentPanel.Alignment="Far" Margin="{DynamicResource {dxbt:BarItemThemeKey ResourceKey=InMenuKeyGestureMargin}}" Content="{Binding Path=Link.KeyGestureText, RelativeSource={RelativeSource TemplatedParent}}" Style="{Binding Path=NormalContentStyle, RelativeSource={RelativeSource TemplatedParent}}" Visibility="Collapsed" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ItemState">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Item" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Hot" />
+                                    <VisualState x:Name="Pressed" />
+                                    <VisualState x:Name="Customization" />
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Item" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{DynamicResource {dxbt:BarItemThemeKey ResourceKey=DisableStateOpacityValue}}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="KeyGestureVisibility">
+                                    <VisualState x:Name="KeyGestureVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_KeyGesture" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DescriptionVisibility">
+                                    <VisualState x:Name="DescriptionVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Description" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentAndDescription" Storyboard.TargetProperty="VerticalAlignment">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <VerticalAlignment>Stretch</VerticalAlignment>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="DescriptionHidden">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Description" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentAndDescription" Storyboard.TargetProperty="VerticalAlignment">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <VerticalAlignment>Center</VerticalAlignment>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </ResourceDictionary>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <dxb:BarManager x:Name="barManager1">
+            <dxb:BarManager.Items>
+                <local:MySubItem x:Name="sitem1" Content="File" SubItemsGlyphSize="Large">
+                    <dxb:BarSubItem.ItemLinks>
+                        <dxb:BarCheckItemLink BarItemName="item1" />
+                        <dxb:BarCheckItemLink BarItemName="item2" />
+                        <dxb:BarButtonItemLink BarItemName="item3" />
+                        <dxb:BarButtonItemLink BarItemName="item4" />
+                        <dxb:BarButtonItemLink BarItemName="item5" />
+                    </dxb:BarSubItem.ItemLinks>
+                </local:MySubItem>
+                <dxb:BarCheckItem x:Name="item1" Content="Item1" LargeGlyph="/Images/Cut_32x32.png" />
+                <dxb:BarCheckItem x:Name="item2" Content="Item2" LargeGlyph="/Images/New_32x32.png" />
+                <dxb:BarButtonItem x:Name="item3" Content="Item3" LargeGlyph="/Images/Find_32x32.png" />
+                <dxb:BarButtonItem x:Name="item4" Content="Item4" LargeGlyph="/Images/Paste_32x32.png" />
+                <dxb:BarButtonItem x:Name="item5" Content="Item5" LargeGlyph="/Images/Cut_32x32.png" />
+            </dxb:BarManager.Items>
+            
+            <!--<dxb:BarManager.Bars>
+                <dxb:Bar>
+                    <dxb:Bar.DockInfo>
+                        <dxb:BarDockInfo ContainerType="Top" />
+                    </dxb:Bar.DockInfo>
+                    <dxb:Bar.ItemLinks>
+                        <local:MySubItemLink BarItemName="sitem1" />
+                        <dxb:BarSubItemLink BarItemName="sitem2"/>
+                    </dxb:Bar.ItemLinks>
+                </dxb:Bar>
+            </dxb:BarManager.Bars>-->
+            <dxr:RibbonControl Name="ribbonControl1">
+                <dxr:RibbonDefaultPageCategory>
+                    <dxr:RibbonPage Caption="Test Page">
+                        <dxr:RibbonPageGroup Name="pFile" Caption="File">
+                            <local:MySubItemLink BarItemName="sitem1" />
+                            <dxb:BarCheckItemLink BarItemName="item1"></dxb:BarCheckItemLink>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                </dxr:RibbonDefaultPageCategory>
+            </dxr:RibbonControl> 
+        </dxb:BarManager>
+    </Grid>
+</Window>
