@@ -1,4 +1,4 @@
-﻿<dx:ThemedWindow x:Class="Q421413.MainWindow"
+<dx:ThemedWindow x:Class="Q421413.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
